@@ -3,7 +3,7 @@ import ApiKeyManager from './components/ApiKeyManager/ApiKeyManager';
 import CharacteristicSelector from './components/CharacteristicSelector/CharacteristicSelector';
 import ChatInterface from './components/ChatInterface/ChatInterface';
 import SessionManager from './components/SessionManager/SessionManager';
-import SettingsPage from './pages/SettingsPage';
+import SettingsPage from './pages/SettingsPage.js';
 import { getChatHistory } from './services/api';
 import './App.scss';
 

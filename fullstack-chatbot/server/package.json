@@ -18,10 +18,14 @@
     "pg": "^8.11.3",
     "node-cron": "^3.0.2",
     "rate-limiter-flexible": "^2.4.1",
-    "@qdrant/js-client-rest": "^1.7.1",
-    "sentence-transformers": "^1.0.7"
+    "@qdrant/js-client-rest": "^1.7.1"
+
   },
   "devDependencies": {
     "nodemon": "^3.0.1"
-  }
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs"
 }

@@ -1,0 +1,132 @@
+.chat-interface {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: var(--bg-primary);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  
+  .chat-messages {
+    flex: 1;
+    padding: 16px;
+    overflow-y: auto;
+    
+    .message {
+      margin-bottom: 16px;
+      
+      &.user {
+        text-align: right;
+        
+        .message-content {
+          background: var(--accent-primary);
+          color: white;
+          margin-left: auto;
+        }
+      }
+      
+      &.assistant {
+        text-align: left;
+        
+        .message-content {
+          background: var(--bg-tertiary);
+          color: var(--text-primary);
+        }
+      }
+      
+      .message-content {
+        display: inline-block;
+        max-width: 80%;
+        padding: 12px 16px;
+        border-radius: 18px;
+        word-wrap: break-word;
+        
+        &.loading {
+          background: transparent;
+        }
+      }
+      
+      .typing-indicator {
+        display: flex;
+        gap: 4px;
+        
+        span {
+          width: 8px;
+          height: 8px;
+          background-color: var(--text-secondary);
+          border-radius: 50%;
+          animation: bounce 1.3s infinite ease-in-out;
+          
+          &:nth-child(2) {
+            animation-delay: 0.15s;
+          }
+          
+          &:nth-child(3) {
+            animation-delay: 0.3s;
+          }
+        }
+      }
+    }
+  }
+  
+  .chat-input {
+    display: flex;
+    padding: 16px;
+    border-top: 1px solid var(--border-color);
+    background-color: var(--bg-secondary);
+    
+    textarea {
+      flex: 1;
+      padding: 12px 16px;
+      border: 1px solid var(--border-color);
+      border-radius: 24px;
+      resize: none;
+      font-family: inherit;
+      font-size: 14px;
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      
+      &:focus {
+        outline: none;
+        border-color: var(--accent-primary);
+      }
+      
+      &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+    }
+    
+    button {
+      margin-left: 12px;
+      padding: 12px 20px;
+      background-color: var(--accent-primary);
+      color: white;
+      border: none;
+      border-radius: 24px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: background-color 0.2s;
+      
+      &:hover:not(:disabled) {
+        background-color: var(--accent-secondary);
+      }
+      
+      &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+    }
+  }
+}
+
+@keyframes bounce {
+  0%, 80%, 100% {
+    transform: scale(0.8);
+    opacity: 0.5;
+  }
+  40% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}

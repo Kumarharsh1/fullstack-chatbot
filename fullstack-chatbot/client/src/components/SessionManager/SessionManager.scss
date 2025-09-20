@@ -1,0 +1,40 @@
+.session-manager {
+  .session-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    
+    .session-active, .session-inactive {
+      padding: 6px 12px;
+      border-radius: 16px;
+      font-size: 14px;
+      font-weight: 500;
+    }
+    
+    .session-active {
+      background-color: var(--success);
+      color: white;
+    }
+    
+    .session-inactive {
+      background-color: var(--bg-tertiary);
+      color: var(--text-secondary);
+    }
+    
+    .new-session-btn {
+      padding: 6px 12px;
+      background-color: var(--accent-primary);
+      color: white;
+      border: none;
+      border-radius: 16px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+      transition: background-color 0.2s;
+      
+      &:hover {
+        background-color: var(--accent-secondary);
+      }
+    }
+  }
+}
