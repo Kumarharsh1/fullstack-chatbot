@@ -6,7 +6,6 @@
 [build.environment]
   NODE_VERSION = "18"
 
-# For client-side routing in React (Single Page Application)
 [[redirects]]
   from = "/*"
   to = "/index.html"
