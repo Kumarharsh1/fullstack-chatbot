@@ -1,0 +1,26 @@
+{
+  "builds": [
+    {
+      "src": "server/package.json",
+      "use": "@railway/node"
+    },
+    {
+      "src": "client/package.json",
+      "use": "@railway/static"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "/server/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/client/$1"
+    }
+  ],
+  "redirects": {
+    "source": "/",
+    "destination": "/index.html"
+  }
+}

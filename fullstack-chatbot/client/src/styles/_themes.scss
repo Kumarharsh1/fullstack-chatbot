@@ -1,0 +1,80 @@
+// Light theme
+.light-theme {
+  --bg-primary: #ffffff;
+  --bg-secondary: #f5f5f7;
+  --bg-tertiary: #e9ecef;
+  --text-primary: #212529;
+  --text-secondary: #6c757d;
+  --accent-primary: #6f42c1;
+  --accent-secondary: #007bff;
+  --border-color: #dee2e6;
+  --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --card-bg: #ffffff;
+  --success: #28a745;
+  --warning: #ffc107;
+  --error: #dc3545;
+}
+
+// Dark theme
+.dark-theme {
+  --bg-primary: #121212;
+  --bg-secondary: #1e1e1e;
+  --bg-tertiary: #2d2d2d;
+  --text-primary: #e9ecef;
+  --text-secondary: #adb5bd;
+  --accent-primary: #8c68cd;
+  --accent-secondary: #4dabf7;
+  --border-color: #495057;
+  --shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  --card-bg: #1e1e1e;
+  --success: #51cf66;
+  --warning: #ffd43b;
+  --error: #ff6b6b;
+}
+
+// Cartoon theme
+.cartoon-theme {
+  --bg-primary: #ffe6f2;
+  --bg-secondary: #fff0f7;
+  --bg-tertiary: #ffd6eb;
+  --text-primary: #4a154b;
+  --text-secondary: #8a4b8a;
+  --accent-primary: #ff6b8b;
+  --accent-secondary: #ff8fab;
+  --border-color: #ffc2d1;
+  --shadow: 0 4px 15px rgba(255, 107, 139, 0.2);
+  --card-bg: #ffffff;
+  --success: #a8e6cf;
+  --warning: #ffd93d;
+  --error: #ff6b6b;
+  
+  .api-key-manager {
+    background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+  }
+  
+  .characteristic-card {
+    border-radius: 20px;
+    box-shadow: 0 8px 16px rgba(255, 107, 139, 0.3);
+    
+    &.selected {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 20px rgba(255, 107, 139, 0.4);
+    }
+  }
+  
+  .chat-interface {
+    border-radius: 20px;
+    box-shadow: 0 8px 25px rgba(255, 107, 139, 0.2);
+  }
+  
+  button {
+    border-radius: 25px;
+    font-weight: bold;
+    box-shadow: 0 4px 8px rgba(255, 107, 139, 0.3);
+    
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 12px rgba(255, 107, 139, 0.4);
+    }
+  }
+}
