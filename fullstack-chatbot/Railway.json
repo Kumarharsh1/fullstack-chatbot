@@ -18,9 +18,5 @@
       "src": "/(.*)",
       "dest": "/client/$1"
     }
-  ],
-  "redirects": {
-    "source": "/",
-    "destination": "/index.html"
-  }
+  ]
 }
