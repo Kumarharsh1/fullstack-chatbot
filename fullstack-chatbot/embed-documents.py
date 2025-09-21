@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """
 Document Embedding Script
 Processes various document types and generates embeddings for RAG applications
@@ -58,7 +58,7 @@ class DocumentEmbedder:
 
     def load_documents(self, input_path: str) -> List[Document]:
         """
-        Load documents from various formats supported by LangChain :cite[3]:cite[4]
+        Load documents from various formats supported by LangChain 
         
         Supported formats: PDF, DOCX, PPTX, TXT, MD, HTML
         """
@@ -103,7 +103,7 @@ class DocumentEmbedder:
                        chunk_size: int = 1000, 
                        chunk_overlap: int = 200) -> List[Document]:
         """
-        Split documents into smaller chunks for better embedding :cite[4]
+        Split documents into smaller chunks for better embedding 
         """
         text_splitter = RecursiveCharacterTextSplitter(
             chunk_size=chunk_size,
@@ -116,11 +116,11 @@ class DocumentEmbedder:
     def create_vector_store(self, documents: List[Document], 
                           persist_directory: str = None) -> Any:
         """
-        Create and populate vector store with document embeddings :cite[7]
+        Create and populate vector store with document embeddings 
         """
         if self.vector_store_type == "chroma":
             self.vector_store = Chroma.from_documents(
-                documents=documents,
+                documents=document,
                 embedding=self.embedding_model,
                 persist_directory=persist_directory
             )
@@ -142,7 +142,7 @@ class DocumentEmbedder:
                         chunk_size: int = 1000,
                         chunk_overlap: int = 200) -> Dict[str, Any]:
         """
-        Main method to process documents and generate embeddings :cite[4]:cite[5]
+        Main method to process documents and generate embeddings 
         """
         # Load documents
         print(f"Loading documents from {input_path}...")
@@ -176,7 +176,7 @@ class DocumentEmbedder:
 
 # Gemini Embedding Wrapper (example implementation)
 class GeminiEmbeddingWrapper:
-    """Wrapper for Gemini embedding functionality :cite[5]"""
+    """Wrapper for Gemini embedding functionality """
     def __init__(self):
         import google.generativeai as genai
         self.model = genai.GenerativeModel('models/embedding-001')

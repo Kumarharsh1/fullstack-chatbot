@@ -1,0 +1,59 @@
+.stylish-theme {
+  --bg-primary: #1e1f28;
+  --bg-secondary: #2a2c3b;
+  --bg-tertiary: #3b3d55;
+  --text-primary: #f0f0f5;
+  --text-secondary: #c1c1d0;
+  --accent-primary: #ff6b81;
+  --accent-secondary: #6bffb8;
+  --border-color: #565777;
+  --card-bg: #2a2c3b;
+  --shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+
+  body {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: 'Segoe UI', Roboto, sans-serif;
+  }
+
+  button {
+    background: linear-gradient(45deg, var(--accent-primary), var(--accent-secondary));
+    color: #fff;
+    font-weight: 600;
+    border-radius: 25px;
+    padding: 0.6rem 1.2rem;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
+
+    &:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 15px rgba(255, 107, 129, 0.5);
+    }
+  }
+
+  .chat-bubble {
+    background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+    color: #4a154b;
+    border-radius: 15px;
+    padding: 10px 15px;
+    margin-bottom: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  }
+
+  #app-footer {
+    background: linear-gradient(135deg, #6b5bff, #ff6b81);
+    color: white;
+    text-align: center;
+    padding: 15px 0;
+    font-size: 0.9rem;
+    letter-spacing: 0.5px;
+    box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.3);
+
+    a {
+      color: #fff;
+      text-decoration: underline;
+      &:hover { color: var(--accent-secondary); }
+    }
+  }
+}

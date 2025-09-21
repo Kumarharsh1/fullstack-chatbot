@@ -1,91 +1,199 @@
 @import './styles/main.scss';
 
+// App container
 .App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  padding: 20px;
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-// Additional app-specific styles
-.theme-toggle {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  z-index: 1000;
-  background-color: var(--accent-primary);
-  color: white;
-  border: none;
-  border-radius: 50%;
-  width: 50px;
-  height: 50px;
   display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: 'Segoe UI', Roboto, sans-serif;
+}
+
+// Header
+.App-header {
+  background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+  color: white;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
   align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  box-shadow: var(--shadow-md);
-  transition: all 0.3s ease;
-  
-  &:hover {
-    transform: scale(1.1);
+  font-weight: 700;
+  font-size: 1.5rem;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+}
+
+// Main content
+.app-main {
+  flex: 1;
+  display: flex;
+  gap: 2rem;
+  padding: 2rem;
+
+  @media (max-width: 992px) {
+    flex-direction: column;
+  }
+
+  // Chat panel
+  .chat-panel {
+    flex: 1;
+    background: var(--bg-secondary);
+    border-radius: 20px;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    max-height: 75vh;
+    overflow-y: auto;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+
+    .chat-bubble {
+      background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+      color: #4a154b;
+      border-radius: 20px;
+      padding: 12px 18px;
+      margin-bottom: 10px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      max-width: 80%;
+      word-wrap: break-word;
+      font-weight: 500;
+      animation: bubblePop 0.4s ease-out;
+
+      &.user {
+        align-self: flex-end;
+        background: linear-gradient(135deg, #6f42c1, #8c68cd);
+        color: white;
+      }
+    }
+
+    .chat-input {
+      margin-top: 1rem;
+      display: flex;
+      gap: 0.5rem;
+
+      input {
+        flex: 1;
+        padding: 0.8rem 1rem;
+        border-radius: 25px;
+        border: 1px solid var(--border-color);
+        font-size: 1rem;
+        outline: none;
+        transition: all 0.3s;
+
+        &:focus {
+          border-color: var(--accent-primary);
+          box-shadow: 0 0 8px rgba(111, 66, 193, 0.5);
+        }
+      }
+
+      button {
+        background: var(--accent-primary);
+        color: white;
+        padding: 0.8rem 1.5rem;
+        border-radius: 25px;
+        font-weight: 600;
+        border: none;
+        cursor: pointer;
+        transition: all 0.3s;
+
+        &:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 6px 12px rgba(111, 66, 193, 0.5);
+        }
+      }
+    }
+  }
+
+  // Config/settings panel
+  .config-panel {
+    flex: 0 0 350px;
+    background: var(--card-bg);
+    padding: 1.5rem;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+
+    @media (max-width: 992px) {
+      width: 100%;
+      flex: auto;
+    }
+
+    h2 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+
+    label {
+      font-weight: 500;
+      margin-bottom: 0.3rem;
+      display: block;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 0.6rem 1rem;
+      border-radius: 15px;
+      border: 1px solid var(--border-color);
+      background: var(--bg-secondary);
+      transition: all 0.3s;
+
+      &:focus {
+        border-color: var(--accent-primary);
+        box-shadow: 0 0 8px rgba(111, 66, 193, 0.3);
+      }
+    }
+
+    button.save-settings-btn {
+      background: var(--accent-primary);
+      color: white;
+      font-weight: 600;
+      padding: 0.8rem 1rem;
+      border-radius: 25px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s;
+
+      &:hover {
+        background: var(--accent-secondary);
+        transform: translateY(-2px);
+      }
+    }
   }
 }
 
-.loading-spinner {
-  display: inline-block;
-  width: 20px;
-  height: 20px;
-  border: 3px solid rgba(255, 255, 255, 0.3);
-  border-radius: 50%;
-  border-top-color: #fff;
-  animation: spin 1s ease-in-out infinite;
-}
+// Footer
+#app-footer {
+  background: linear-gradient(135deg, #6b5bff, #ff6b81);
+  color: white;
+  text-align: center;
+  padding: 1rem 0;
+  font-size: 0.9rem;
+  letter-spacing: 0.5px;
+  box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.3);
 
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
+  a {
+    color: #fff;
+    text-decoration: underline;
+
+    &:hover {
+      color: var(--accent-secondary);
+    }
+  }
+
+  .footer-text {
+    font-weight: 600;
+    span {
+      color: #ff6b81;
+    }
   }
 }
 
-.error-message {
-  background-color: var(--error);
-  color: white;
-  padding: 10px;
-  border-radius: 5px;
-  margin: 10px 0;
-}
-
-.success-message {
-  background-color: var(--success);
-  color: white;
-  padding: 10px;
-  border-radius: 5px;
-  margin: 10px 0;
+// Animations
+@keyframes bubblePop {
+  0% { transform: scale(0.8); opacity: 0.5; }
+  50% { transform: scale(1.05); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
 }

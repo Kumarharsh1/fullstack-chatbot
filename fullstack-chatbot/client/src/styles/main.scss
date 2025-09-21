@@ -1,146 +1,44 @@
-@import 'variables';
-@import 'animations';
-@import 'themes';
+@import './variables';
+@import './animations';
+@import './theme';
 
 // Global styles
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+* { box-sizing: border-box; margin: 0; padding: 0; }
 
-body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  background-color: var(--bg-primary, #f8f9fa);
-  color: var(--text-primary, #212529);
-  line-height: 1.6;
-}
+body { line-height: 1.6; }
 
-// App layout
-.app {
-  min-height: 100vh;
+.App { text-align: center; }
+
+.app-header {
+  background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+  color: white;
+  padding: 1rem 1.5rem;
   display: flex;
-  flex-direction: column;
-  
-  .app-header {
-    background: linear-gradient(135deg, var(--accent-primary, #6f42c1), var(--accent-secondary, #007bff));
-    color: white;
-    padding: $spacing-md $spacing-lg;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: $shadow-md;
-    
-    h1 {
-      font-size: $font-size-xl;
-      font-weight: 700;
-    }
-  }
-  
-  .app-main {
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: $shadow-md;
+
+  h1 { font-size: 1.8rem; font-weight: 700; }
+}
+
+.app-main {
+  flex: 1;
+  display: flex;
+  padding: 1.5rem;
+  gap: 1.5rem;
+
+  @media (max-width: 992px) { flex-direction: column; }
+
+  .chat-panel {
     flex: 1;
-    display: flex;
-    padding: $spacing-lg;
-    gap: $spacing-lg;
-    
-    @media (max-width: $breakpoint-lg) {
-      flex-direction: column;
-    }
-    
-    .config-panel {
-      flex: 0 0 300px;
-      display: flex;
-      flex-direction: column;
-      gap: $spacing-lg;
-      
-      @media (max-width: $breakpoint-lg) {
-        flex: 0 0 auto;
-        width: 100%;
-      }
-    }
-    
-    .chat-panel {
-      flex: 1;
-      min-height: 600px;
-      
-      @media (max-width: $breakpoint-lg) {
-        min-height: 500px;
-      }
-    }
+    min-height: 600px;
   }
-}
 
-// Chat page
-.chat-page {
-  display: flex;
-  gap: $spacing-lg;
-  height: 100%;
-  
-  @media (max-width: $breakpoint-lg) {
+  .config-panel {
+    flex: 0 0 300px;
+    display: flex;
     flex-direction: column;
-  }
-}
-
-// Settings page
-.settings-page {
-  padding: $spacing-lg;
-  max-width: 600px;
-  margin: 0 auto;
-  
-  h2 {
-    margin-bottom: $spacing-xl;
-    text-align: center;
-  }
-  
-  .settings-group {
-    background-color: var(--card-bg, #ffffff);
-    border-radius: $border-radius-lg;
-    padding: $spacing-lg;
-    margin-bottom: $spacing-lg;
-    box-shadow: $shadow-sm;
-    
-    h3 {
-      margin-bottom: $spacing-md;
-      color: var(--accent-primary, #6f42c1);
-    }
-  }
-  
-  .setting-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: $spacing-md;
-    
-    label {
-      font-weight: 500;
-    }
-    
-    select, input[type="checkbox"] {
-      padding: $spacing-xs;
-      border: 1px solid var(--border-color, #dee2e6);
-      border-radius: $border-radius-sm;
-      background-color: var(--bg-secondary, #f8f9fa);
-    }
-  }
-  
-  .save-settings-btn {
-    display: block;
-    width: 100%;
-    padding: $spacing-md;
-    background-color: var(--accent-primary, #6f42c1);
-    color: white;
-    border: none;
-    border-radius: $border-radius-md;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background-color $transition-fast;
-    
-    &:hover {
-      background-color: var(--accent-secondary, #007bff);
-    }
+    gap: 1.5rem;
+    @media (max-width: 992px) { width: 100%; flex: auto; }
   }
 }
