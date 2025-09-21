@@ -4,9 +4,30 @@ const { validateApiKey } = require('../services/validationService');
 const { getAIResponse } = require('../services/aiService');
 const { retrieveRelevantContent } = require('../services/embeddingService');
 
+// Define mode-to-characteristic mapping
+const modeCharacteristics = {
+  'news-assistant': 'news',
+  'sales-chatbot': 'sales',
+  'cybersecurity-expert': 'technical',
+  'general-assistant': 'general'
+};
+
+// Define mode-specific service types if needed
+const modeServiceTypes = {
+  // You can customize which AI service to use for each mode
+  'news-assistant': 'groq', // or 'groq', 'openai', etc.
+  'sales-chatbot': 'groq',
+  'cybersecurity-expert': 'groq',
+  'general-assistant': 'groq'
+};
+
 exports.sendMessage = async (req, res) => {
   try {
-    const { message, sessionId, apiKey, serviceType, characteristic } = req.body;
+    const { message, sessionId, apiKey, mode = 'general-assistant', systemPrompt } = req.body;
+    
+    // Map mode to characteristic and service type
+    const characteristic = modeCharacteristics[mode] || 'general';
+    const serviceType = modeServiceTypes[mode] || 'groq';
     
     // Validate API key
     const isValid = await validateApiKey(apiKey, serviceType);
@@ -22,7 +43,12 @@ exports.sendMessage = async (req, res) => {
     let history = await redisClient.get(historyKey);
     history = history ? JSON.parse(history) : [];
     
-    // Retrieve relevant content from vector store if RAG is enabled
+    // Add system prompt to history if it's the first message in session
+    if (history.length === 0 && systemPrompt) {
+      history.push({ role: 'system', content: systemPrompt });
+    }
+    
+    // Retrieve relevant content from vector store if RAG is enabled for this mode
     let context = '';
     if (characteristic === 'news') {
       context = await retrieveRelevantContent(message);
@@ -38,9 +64,10 @@ exports.sendMessage = async (req, res) => {
       context
     );
     
-    // Update history
+    // Update history (don't include system messages in the stored history)
+    const userAssistantHistory = history.filter(msg => msg.role !== 'system');
     const newHistory = [
-      ...history,
+      ...userAssistantHistory,
       { role: 'user', content: message },
       { role: 'assistant', content: aiResponse }
     ];
@@ -54,7 +81,8 @@ exports.sendMessage = async (req, res) => {
       await redisClient.setEx(`chat:${currentSessionId}:metadata`, 86400, JSON.stringify({
         createdAt: new Date().toISOString(),
         characteristic,
-        serviceType
+        serviceType,
+        mode
       }));
     }
     
@@ -70,6 +98,7 @@ exports.sendMessage = async (req, res) => {
   }
 };
 
+// The getHistory and clearHistory functions remain the same
 exports.getHistory = async (req, res) => {
   try {
     const { sessionId } = req.params;

@@ -3,7 +3,7 @@ import './ApiKeyManager.scss';
 
 const ApiKeyManager = ({ onApiKeySet, currentService, currentKey }) => {
   const [apiKey, setApiKey] = useState(currentKey || '');
-  const [serviceType, setServiceType] = useState(currentService || 'grok');
+  const [serviceType, setServiceType] = useState(currentService || 'groq');
   const [isVisible, setIsVisible] = useState(false);
 
   const handleSubmit = (e) => {
@@ -29,7 +29,7 @@ const ApiKeyManager = ({ onApiKeySet, currentService, currentKey }) => {
               value={serviceType}
               onChange={(e) => setServiceType(e.target.value)}
             >
-              <option value="grok">Grok (xAI)</option>
+              <option value="groq">Groq Cloud API</option>
               <option value="gemini">Gemini (Google)</option>
               <option value="openai">OpenAI</option>
               <option value="deepseek">DeepSeek</option>
@@ -43,7 +43,7 @@ const ApiKeyManager = ({ onApiKeySet, currentService, currentKey }) => {
               type="password"
               value={apiKey}
               onChange={(e) => setApiKey(e.target.value)}
-              placeholder={`Enter your ${serviceType} API key`}
+              placeholder={`Enter your ${serviceType === 'groq' ? 'Groq' : serviceType} API key`}
             />
           </div>
           

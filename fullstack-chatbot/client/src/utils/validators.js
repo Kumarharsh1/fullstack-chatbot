@@ -8,14 +8,20 @@ export const isValidEmail = (email) => {
 export const isValidApiKey = (key, service) => {
   if (!key || typeof key !== 'string') return false;
   
+  // Trim the key to remove any accidental whitespace
+  const trimmedKey = key.trim();
+  
   const patterns = {
-    grok: /^gk-[a-zA-Z0-9]{40}$/,
-    gemini: /^AIza[0-9A-Za-z-_]{35}$/,
-    openai: /^sk-[a-zA-Z0-9]{48}$/,
-    deepseek: /^ds-[a-zA-Z0-9]{48}$/
+    groq: /^gsk_[a-zA-Z0-9]{32,}$/i, // Groq API keys: gsk_ followed by at least 32 alphanumeric chars
+    gemini: /^AIza[0-9A-Za-z-_]{35}$/, // Google Gemini keys
+    openai: /^sk-[a-zA-Z0-9]{48}$/, // OpenAI keys
+    deepseek: /^ds-[a-zA-Z0-9]{40,50}$/ // DeepSeek keys (approximate pattern)
   };
   
-  return patterns[service]?.test(key) || false;
+  // For services without a known pattern, just check if it's a non-empty string
+  if (!patterns[service]) return trimmedKey.length > 0;
+  
+  return patterns[service].test(trimmedKey);
 };
 
 // Validate URL format
@@ -39,7 +45,7 @@ export const isEmpty = (value) => {
 
 // Validate password strength
 export const isStrongPassword = (password) => {
-  // At least 8 characters, one uppercase, one lowercase, one number
-  const strongRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d\w\W]{8,}$/;
+  // At least 8 characters, one uppercase, one lowercase, one number, and one special character
+  const strongRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]).{8,}$/;
   return strongRegex.test(password);
 };

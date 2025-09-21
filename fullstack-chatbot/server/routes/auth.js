@@ -10,7 +10,7 @@ router.get('/admin/stats', authenticateApiKey, (req, res) => {
     activeSessions: 23,
     totalMessages: 1250,
     apiUsage: {
-      grok: 450,
+      groq: 450,
       gemini: 320,
       openai: 280,
       deepseek: 200

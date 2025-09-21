@@ -9,7 +9,7 @@ Most endpoints require an API key passed in the request body:
 ```json
 {
   "apiKey": "your-api-key",
-  "serviceType": "grok"
+  "serviceType": "groq"
 }
 
 ### 3. **Endpoints**
@@ -25,7 +25,7 @@ Most endpoints require an API key passed in the request body:
   "message": "Hello, how are you?",
   "sessionId": "optional-session-id",
   "apiKey": "your-api-key",
-  "serviceType": "grok",
+  "serviceType": "groq",
   "characteristic": "news"
 }
 {
@@ -80,6 +80,6 @@ Include:
 
 ### v1.0.0 (2023-10-01)
 - Initial release
-- Support for Grok, Gemini, OpenAI, DeepSeek
+- Support for Groq, Gemini, OpenAI, DeepSeek
 - RAG with Qdrant
 - Redis-based session management

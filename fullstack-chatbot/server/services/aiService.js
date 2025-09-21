@@ -2,7 +2,7 @@ const axios = require('axios');
 
 // Service-specific API endpoints
 const API_ENDPOINTS = {
-  grok: 'https://api.x.ai/v1/chat/completions',
+  groq: 'https://api.groq.com/openai/v1/chat/completions', // Replaced Grok with Groq
   gemini: `https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent`,
   openai: 'https://api.openai.com/v1/chat/completions',
   deepseek: 'https://api.deepseek.com/v1/chat/completions'
@@ -16,6 +16,14 @@ const CHARACTERISTIC_PROMPTS = {
   default: 'You are a helpful AI assistant. Provide clear, concise, and accurate responses to user queries.'
 };
 
+// Model mappings for each service
+const SERVICE_MODELS = {
+  groq: 'llama3-70b-8192', // Default Groq model
+  gemini: 'gemini-pro',
+  openai: 'gpt-3.5-turbo',
+  deepseek: 'deepseek-chat'
+};
+
 async function getAIResponse(message, history, apiKey, serviceType, characteristic, context) {
   const prompt = CHARACTERISTIC_PROMPTS[characteristic] || CHARACTERISTIC_PROMPTS.default;
   
@@ -25,8 +33,8 @@ async function getAIResponse(message, history, apiKey, serviceType, characterist
   
   try {
     switch (serviceType) {
-      case 'grok':
-        return await callGrokAPI(message, history, apiKey, systemMessage);
+      case 'groq': // Added Groq case
+        return await callGroqAPI(message, history, apiKey, systemMessage);
       case 'gemini':
         return await callGeminiAPI(message, history, apiKey, systemMessage);
       case 'openai':
@@ -38,28 +46,37 @@ async function getAIResponse(message, history, apiKey, serviceType, characterist
     }
   } catch (error) {
     console.error(`Error calling ${serviceType} API:`, error.response?.data || error.message);
-    throw new Error(`Failed to get response from ${serviceType}`);
+    throw new Error(`Failed to get response from ${serviceType}: ${error.response?.data?.error?.message || error.message}`);
   }
 }
 
-async function callGrokAPI(message, history, apiKey, systemMessage) {
+async function callGroqAPI(message, history, apiKey, systemMessage) {
   const messages = [
     { role: 'system', content: systemMessage },
-    ...history.map(msg => ({ role: msg.role, content: msg.content })),
+    ...history.filter(msg => msg.role !== 'system').map(msg => ({ 
+      role: msg.role, 
+      content: msg.content 
+    })),
     { role: 'user', content: message }
   ];
   
-  const response = await axios.post(API_ENDPOINTS.grok, {
+  const response = await axios.post(API_ENDPOINTS.groq, {
     messages,
-    model: 'grok-beta',
+    model: SERVICE_MODELS.groq,
     temperature: 0.7,
-    max_tokens: 1000
+    max_tokens: 1000,
+    stream: false
   }, {
     headers: {
       'Authorization': `Bearer ${apiKey}`,
       'Content-Type': 'application/json'
-    }
+    },
+    timeout: 30000 // 30 second timeout
   });
+  
+  if (!response.data.choices || !response.data.choices[0] || !response.data.choices[0].message) {
+    throw new Error('Invalid response format from Groq API');
+  }
   
   return response.data.choices[0].message.content;
 }
@@ -89,14 +106,81 @@ async function callGeminiAPI(message, history, apiKey, systemMessage) {
         temperature: 0.7,
         maxOutputTokens: 1000
       }
+    },
+    {
+      timeout: 30000
     }
   );
+  
+  if (!response.data.candidates || !response.data.candidates[0] || !response.data.candidates[0].content) {
+    throw new Error('Invalid response format from Gemini API');
+  }
   
   return response.data.candidates[0].content.parts[0].text;
 }
 
-// Similar implementations for OpenAI and DeepSeek would follow
+async function callOpenAIAPI(message, history, apiKey, systemMessage) {
+  const messages = [
+    { role: 'system', content: systemMessage },
+    ...history.filter(msg => msg.role !== 'system').map(msg => ({
+      role: msg.role,
+      content: msg.content
+    })),
+    { role: 'user', content: message }
+  ];
+  
+  const response = await axios.post(API_ENDPOINTS.openai, {
+    messages,
+    model: SERVICE_MODELS.openai,
+    temperature: 0.7,
+    max_tokens: 1000
+  }, {
+    headers: {
+      'Authorization': `Bearer ${apiKey}`,
+      'Content-Type': 'application/json'
+    },
+    timeout: 30000
+  });
+  
+  if (!response.data.choices || !response.data.choices[0] || !response.data.choices[0].message) {
+    throw new Error('Invalid response format from OpenAI API');
+  }
+  
+  return response.data.choices[0].message.content;
+}
+
+async function callDeepSeekAPI(message, history, apiKey, systemMessage) {
+  const messages = [
+    { role: 'system', content: systemMessage },
+    ...history.filter(msg => msg.role !== 'system').map(msg => ({
+      role: msg.role,
+      content: msg.content
+    })),
+    { role: 'user', content: message }
+  ];
+  
+  const response = await axios.post(API_ENDPOINTS.deepseek, {
+    messages,
+    model: SERVICE_MODELS.deepseek,
+    temperature: 0.7,
+    max_tokens: 1000,
+    stream: false
+  }, {
+    headers: {
+      'Authorization': `Bearer ${apiKey}`,
+      'Content-Type': 'application/json'
+    },
+    timeout: 30000
+  });
+  
+  if (!response.data.choices || !response.data.choices[0] || !response.data.choices[0].message) {
+    throw new Error('Invalid response format from DeepSeek API');
+  }
+  
+  return response.data.choices[0].message.content;
+}
 
 module.exports = {
-  getAIResponse
+  getAIResponse,
+  SERVICE_MODELS // Export if needed elsewhere
 };

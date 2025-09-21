@@ -19,7 +19,7 @@ const validateChatRequest = [
     .isString()
     .notEmpty()
     .withMessage('Service type is required')
-    .isIn(['grok', 'gemini', 'openai', 'deepseek'])
+    .isIn(['groq', 'gemini', 'openai', 'deepseek'])
     .withMessage('Invalid service type'),
   
   body('characteristic')
@@ -48,7 +48,7 @@ const validateApiKeyRequest = [
     .isString()
     .notEmpty()
     .withMessage('Service type is required')
-    .isIn(['grok', 'gemini', 'openai', 'deepseek'])
+    .isIn(['groq', 'gemini', 'openai', 'deepseek'])
     .withMessage('Invalid service type'),
   
   (req, res, next) => {

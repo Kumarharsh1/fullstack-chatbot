@@ -3,8 +3,8 @@ const axios = require('axios');
 async function validateApiKey(apiKey, serviceType) {
   try {
     switch (serviceType) {
-      case 'grok':
-        return await validateGrokKey(apiKey);
+      case 'groq':
+        return await validateGroqKey(apiKey);
       case 'gemini':
         return await validateGeminiKey(apiKey);
       case 'openai':
